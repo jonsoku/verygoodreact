@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Axios from 'axios';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
+
 // copy-paste
 const BoardsBox = styled.div`
 `;
@@ -24,6 +25,7 @@ const BoardShowBox = styled.div`
 
 const BoardShowInfo = styled.ul`
     display:grid;
+    grid-template-columns: repeat(3, 1fr);
 `;
 
 const BoardShowInfoList = styled.li`
@@ -34,6 +36,10 @@ const BoardShowInfoList = styled.li`
     &:nth-child(3){
     }
     &:nth-child(4){
+        grid-area: span 1 / span 4;
+    }
+    &:nth-child(5){
+        grid-area: span 1 / span 4;
     }
     &:last-child{
     }
@@ -67,9 +73,16 @@ export default class BoardShow extends Component {
     constructor(props){
         super(props);
         this.state = {
-            board : []
+            board : [],
+            boardComments : [],
+            user : [],
+            body : '',
         }
-        this.renderBoard = this.renderBoard.bind(this)
+        this.renderBoard = this.renderBoard.bind(this);
+        this.renderBoardComments =this.renderBoardComments.bind(this);
+        this.renderBoardCommentForm = this.renderBoardCommentForm.bind(this);
+        this.handleChange1 = this.handleChange1.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleDelete(id){
@@ -83,15 +96,15 @@ export default class BoardShow extends Component {
     }
 
     renderBoard(){
-        console.log(this.state)
         return (
             <BoardShowBox>
                 <BoardShowInfo>
                     <BoardShowInfoList>{this.state.board.id}</BoardShowInfoList>
-                    <BoardShowInfoList>{this.state.board.title}</BoardShowInfoList>
-                    <BoardShowInfoList>{this.state.board.description}</BoardShowInfoList>
+                    <BoardShowInfoList>{this.state.user.name}</BoardShowInfoList>
                     <BoardShowInfoList>{this.state.board.created_at}</BoardShowInfoList>
                     <BoardShowInfoList>{this.state.board.updated_at}</BoardShowInfoList>
+                    <BoardShowInfoList>{this.state.board.title}</BoardShowInfoList>
+                    <BoardShowInfoList>{this.state.board.description}</BoardShowInfoList>
                     <BoardShowDeleteButton onClick={()=>this.handleDelete(this.state.board.id)}>Delete</BoardShowDeleteButton>
                     <BoardShowEditButton to={`/boards/${this.state.board.id}/edit`}>Edit</BoardShowEditButton>
                 </BoardShowInfo>
@@ -99,11 +112,60 @@ export default class BoardShow extends Component {
         )
     }
 
+
+
     getBoard(){
-        Axios.get(`/api/boards/${this.props.match.params.id}`).then(
+        Axios.get(`/boards/${this.props.match.params.id}`).then(
             response => this.setState({
-                board : response.data.board
+                board : response.data.board,
+                boardComments : [...response.data.boardComments],
+                user : response.data.user
             })
+        )
+    }
+
+    renderBoardComments(){
+        return this.state.boardComments.map(boardComment => (
+            <div key={boardComment.id}>
+                <div>
+                    <p>{boardComment.body}</p>
+                    <span>by. {boardComment.user.name}</span>
+                    <span>{boardComment.created_at}</span>
+                </div>
+            </div>
+        ))
+    }
+
+    handleChange1(e){
+        this.setState({
+            body : e.target.value
+        })
+    }
+    handleSubmit(e){
+        e.preventDefault();
+        Axios.post(`/boards/${this.props.match.params.id}/boardComments`,{
+            body : this.state.body
+        }).then(
+            this.getBoard()
+        )
+    }
+
+    renderBoardCommentForm(){
+        return (
+            <div>
+                <form onSubmit={this.handleSubmit}>
+                    <div>
+                        <textarea
+                        onChange={this.handleChange1}
+                        value={this.state.body}
+                        placeholder="comment를 입력해주세요.."
+                        />
+                    </div>
+                    <div>
+                        <button type="submit">댓글달기</button>
+                    </div>
+                </form>
+            </div>
         )
     }
 
@@ -112,11 +174,13 @@ export default class BoardShow extends Component {
     }
 
   render() {
-    return (
+      return (
       <BoardsBox>
           <Container>
               <BoardsClass>
                  {this.renderBoard()}
+                 {this.renderBoardCommentForm()}
+                 {this.renderBoardComments()}
               </BoardsClass>
           </Container>
       </BoardsBox>

@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notice;
 use App\Board;
+use App\BoardComment;
 
 class User extends Authenticatable
 {
@@ -45,5 +46,9 @@ class User extends Authenticatable
 
     public function boards(){
         return $this->hasMany(Board::class);
+    }
+
+    public function boardComments(){
+        return $this->hasMany(BoardComment::class);
     }
 }

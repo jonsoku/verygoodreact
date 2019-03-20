@@ -81,10 +81,11 @@ export default class Board extends Component {
     }
 
     renderBoards(){
+        console.log(this.state.boards)
         return this.state.boards.map(board => (
             <BoardBoxBody key={board.id}>
                 <BoardNo>{board.id}</BoardNo>
-                <BoardTitle><Link to={`/boards/${board.id}`}>{board.title}</Link></BoardTitle>
+                <BoardTitle><Link to={`/boards/${board.id}`}>{board.title}      {board.board_comments.length}</Link></BoardTitle>
                 <BoardAuthor>{board.user.name}</BoardAuthor>
                 <BoardCreated>{board.created_at}</BoardCreated>
             </BoardBoxBody>
@@ -136,6 +137,7 @@ export default class Board extends Component {
         this.getBoards();
     }
   render() {
+      console.log(this.state)
 
     return (
         <>

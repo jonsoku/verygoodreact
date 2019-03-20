@@ -69219,12 +69219,13 @@ function (_Component) {
   _createClass(Board, [{
     key: "renderBoards",
     value: function renderBoards() {
+      console.log(this.state.boards);
       return this.state.boards.map(function (board) {
         return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(BoardBoxBody, {
           key: board.id
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(BoardNo, null, board.id), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(BoardTitle, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Link"], {
           to: "/boards/".concat(board.id)
-        }, board.title)), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(BoardAuthor, null, board.user.name), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(BoardCreated, null, board.created_at));
+        }, board.title, "      ", board.board_comments.length)), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(BoardAuthor, null, board.user.name), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(BoardCreated, null, board.created_at));
       });
     }
   }, {
@@ -69293,6 +69294,7 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      console.log(this.state);
       return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, this.state.loading ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_components_Loader__WEBPACK_IMPORTED_MODULE_5__["default"], null) : this.renderBox());
     }
   }]);
@@ -69735,6 +69737,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -69772,7 +69782,7 @@ function _templateObject7() {
 }
 
 function _templateObject6() {
-  var data = _taggedTemplateLiteral(["\n    &:first-child{\n    };\n    &:nth-child(2){\n    }\n    &:nth-child(3){\n    }\n    &:nth-child(4){\n    }\n    &:last-child{\n    }\n    span{\n\n    }\n"]);
+  var data = _taggedTemplateLiteral(["\n    &:first-child{\n    };\n    &:nth-child(2){\n    }\n    &:nth-child(3){\n    }\n    &:nth-child(4){\n        grid-area: span 1 / span 4;\n    }\n    &:nth-child(5){\n        grid-area: span 1 / span 4;\n    }\n    &:last-child{\n    }\n    span{\n\n    }\n"]);
 
   _templateObject6 = function _templateObject6() {
     return data;
@@ -69782,7 +69792,7 @@ function _templateObject6() {
 }
 
 function _templateObject5() {
-  var data = _taggedTemplateLiteral(["\n    display:grid;\n"]);
+  var data = _taggedTemplateLiteral(["\n    display:grid;\n    grid-template-columns: repeat(3, 1fr);\n"]);
 
   _templateObject5 = function _templateObject5() {
     return data;
@@ -69861,9 +69871,16 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(BoardShow).call(this, props));
     _this.state = {
-      board: []
+      board: [],
+      boardComments: [],
+      user: [],
+      body: ''
     };
     _this.renderBoard = _this.renderBoard.bind(_assertThisInitialized(_this));
+    _this.renderBoardComments = _this.renderBoardComments.bind(_assertThisInitialized(_this));
+    _this.renderBoardCommentForm = _this.renderBoardCommentForm.bind(_assertThisInitialized(_this));
+    _this.handleChange1 = _this.handleChange1.bind(_assertThisInitialized(_this));
+    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -69877,8 +69894,7 @@ function (_Component) {
     value: function renderBoard() {
       var _this2 = this;
 
-      console.log(this.state);
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(BoardShowBox, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(BoardShowInfo, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(BoardShowInfoList, null, this.state.board.id), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(BoardShowInfoList, null, this.state.board.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(BoardShowInfoList, null, this.state.board.description), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(BoardShowInfoList, null, this.state.board.created_at), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(BoardShowInfoList, null, this.state.board.updated_at), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(BoardShowDeleteButton, {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(BoardShowBox, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(BoardShowInfo, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(BoardShowInfoList, null, this.state.board.id), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(BoardShowInfoList, null, this.state.user.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(BoardShowInfoList, null, this.state.board.created_at), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(BoardShowInfoList, null, this.state.board.updated_at), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(BoardShowInfoList, null, this.state.board.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(BoardShowInfoList, null, this.state.board.description), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(BoardShowDeleteButton, {
         onClick: function onClick() {
           return _this2.handleDelete(_this2.state.board.id);
         }
@@ -69891,11 +69907,50 @@ function (_Component) {
     value: function getBoard() {
       var _this3 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/api/boards/".concat(this.props.match.params.id)).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/boards/".concat(this.props.match.params.id)).then(function (response) {
         return _this3.setState({
-          board: response.data.board
+          board: response.data.board,
+          boardComments: _toConsumableArray(response.data.boardComments),
+          user: response.data.user
         });
       });
+    }
+  }, {
+    key: "renderBoardComments",
+    value: function renderBoardComments() {
+      return this.state.boardComments.map(function (boardComment) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          key: boardComment.id
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, boardComment.body), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "by. ", boardComment.user.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, boardComment.created_at)));
+      });
+    }
+  }, {
+    key: "handleChange1",
+    value: function handleChange1(e) {
+      this.setState({
+        body: e.target.value
+      });
+    }
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit(e) {
+      e.preventDefault();
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("/boards/".concat(this.props.match.params.id, "/boardComments"), {
+        body: this.state.body
+      }).then(this.getBoard());
+    }
+  }, {
+    key: "renderBoardCommentForm",
+    value: function renderBoardCommentForm() {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: this.handleSubmit
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+        onChange: this.handleChange1,
+        value: this.state.body,
+        placeholder: "comment\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694.."
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "submit"
+      }, "\uB313\uAE00\uB2EC\uAE30"))));
     }
   }, {
     key: "componentWillMount",
@@ -69905,7 +69960,7 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(BoardsBox, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Container, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(BoardsClass, null, this.renderBoard())));
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(BoardsBox, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Container, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(BoardsClass, null, this.renderBoard(), this.renderBoardCommentForm(), this.renderBoardComments())));
     }
   }]);
 
