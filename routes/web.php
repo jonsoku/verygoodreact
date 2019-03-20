@@ -20,4 +20,6 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('notices', 'NoticeController');
 Route::resource('boards', 'BoardController');
-Route::resource('boards.boardComments', 'BoardCommentController', ['only' => 'store']);
+Route::resource('boards.boardComments', 'BoardCommentController');
+Route::resource('posts', 'PostController');
+Route::resource('posts.postComments', 'PostCommentController');

@@ -9,12 +9,15 @@ import Notice from '../Route/Notice/index';
 import NoticeCreate from '../Route/Notice/NoticeCreate';
 import NoticeShow from '../Route/Notice/NoticeShow';
 import NoticeEdit from '../Route/Notice/NoticeEdit';
-import Post from '../Route/Post';
 import Task from '../Route/Task';
 import Header from './Header';
 import BoardCreate from '../Route/Board/BoardCreate';
 import BoardShow from '../Route/Board/BoardShow';
 import BoardEdit from '../Route/Board/BoardEdit';
+import Post from '../Route/Post/index';
+import PostCreate from '../Route/Post/PostCreate';
+import PostShow from '../Route/Post/PostShow';
+import PostEdit from '../Route/Post/PostEdit';
 
 export default () => (
     <Router>
@@ -34,6 +37,9 @@ export default () => (
             <Route path="/notices/:id" exact component={NoticeShow} />
             <Route path="/notices/:id/edit" exact component={NoticeEdit} />
             <Route path="/posts" exact component={Post} />
+            <Route path="/posts/create" exact component={PostCreate} />
+            <Route path="/posts/:id" exact component={PostShow} />
+            <Route path="/posts/:id/edit" exact component={PostEdit} />
             <Route path="/tasks" exact component={Task} />
             <Redirect from="*" to="/" />
         </Switch>

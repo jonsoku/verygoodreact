@@ -69,121 +69,127 @@ const BoardShowEditButton = styled(Link)`
 `;
 
 export default class BoardShow extends Component {
-
-    constructor(props){
-        super(props);
-        this.state = {
-            board : [],
-            boardComments : [],
-            user : [],
-            body : '',
-        }
-        this.renderBoard = this.renderBoard.bind(this);
-        this.renderBoardComments =this.renderBoardComments.bind(this);
-        this.renderBoardCommentForm = this.renderBoardCommentForm.bind(this);
-        this.handleChange1 = this.handleChange1.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+    constructor(props) {
+      super(props);
+      this.state = {
+        board: [],
+        boardComments: [],
+        user: [],
+        body: ""
+      };
+      this.renderBoard = this.renderBoard.bind(this);
+      this.renderBoardComments = this.renderBoardComments.bind(this);
+      this.renderBoardCommentForm = this.renderBoardCommentForm.bind(this);
+      this.handleChange1 = this.handleChange1.bind(this);
+      this.handleSubmit = this.handleSubmit.bind(this);
+      this.handleDelete = this.handleDelete.bind(this);
+      this.handleCommentDelete = this.handleCommentDelete.bind(this);
     }
 
-    handleDelete(id){
-        Axios.delete(`api/boards/${id}`)
-        .then(
-            alert('삭제되었습니당')
-        )
-        .then(
-            this.props.history.push('/boards')
-        )
+    handleDelete(id) {
+      Axios.delete(`api/boards/${id}`)
+        .then(alert("삭제되었습니당"))
+        .then(this.props.history.push("/boards"));
     }
 
-    renderBoard(){
-        return (
-            <BoardShowBox>
-                <BoardShowInfo>
-                    <BoardShowInfoList>{this.state.board.id}</BoardShowInfoList>
-                    <BoardShowInfoList>{this.state.user.name}</BoardShowInfoList>
-                    <BoardShowInfoList>{this.state.board.created_at}</BoardShowInfoList>
-                    <BoardShowInfoList>{this.state.board.updated_at}</BoardShowInfoList>
-                    <BoardShowInfoList>{this.state.board.title}</BoardShowInfoList>
-                    <BoardShowInfoList>{this.state.board.description}</BoardShowInfoList>
-                    <BoardShowDeleteButton onClick={()=>this.handleDelete(this.state.board.id)}>Delete</BoardShowDeleteButton>
-                    <BoardShowEditButton to={`/boards/${this.state.board.id}/edit`}>Edit</BoardShowEditButton>
-                </BoardShowInfo>
-            </BoardShowBox>
-        )
-    }
-
-
-
-    getBoard(){
-        Axios.get(`/boards/${this.props.match.params.id}`).then(
-            response => this.setState({
-                board : response.data.board,
-                boardComments : [...response.data.boardComments],
-                user : response.data.user
-            })
-        )
-    }
-
-    renderBoardComments(){
-        return this.state.boardComments.map(boardComment => (
-            <div key={boardComment.id}>
-                <div>
-                    <p>{boardComment.body}</p>
-                    <span>by. {boardComment.user.name}</span>
-                    <span>{boardComment.created_at}</span>
-                </div>
-            </div>
-        ))
-    }
-
-    handleChange1(e){
-        this.setState({
-            body : e.target.value
-        })
-    }
-    handleSubmit(e){
-        e.preventDefault();
-        Axios.post(`/boards/${this.props.match.params.id}/boardComments`,{
-            body : this.state.body
-        }).then(
-            this.getBoard()
-        )
-    }
-
-    renderBoardCommentForm(){
-        return (
-            <div>
-                <form onSubmit={this.handleSubmit}>
-                    <div>
-                        <textarea
-                        onChange={this.handleChange1}
-                        value={this.state.body}
-                        placeholder="comment를 입력해주세요.."
-                        />
-                    </div>
-                    <div>
-                        <button type="submit">댓글달기</button>
-                    </div>
-                </form>
-            </div>
-        )
-    }
-
-    componentWillMount(){
-        this.getBoard();
-    }
-
-  render() {
+    renderBoard() {
       return (
-      <BoardsBox>
+        <BoardShowBox>
+          <BoardShowInfo>
+            <BoardShowInfoList>{this.state.board.id}</BoardShowInfoList>
+            <BoardShowInfoList>{this.state.user.name}</BoardShowInfoList>
+            <BoardShowInfoList>{this.state.board.created_at}</BoardShowInfoList>
+            <BoardShowInfoList>{this.state.board.updated_at}</BoardShowInfoList>
+            <BoardShowInfoList>{this.state.board.title}</BoardShowInfoList>
+            <BoardShowInfoList>{this.state.board.description}</BoardShowInfoList>
+            <BoardShowDeleteButton
+              onClick={() => this.handleDelete(this.state.board.id)}
+            >
+              Delete
+            </BoardShowDeleteButton>
+            <BoardShowEditButton to={`/boards/${this.state.board.id}/edit`}>
+              Edit
+            </BoardShowEditButton>
+          </BoardShowInfo>
+        </BoardShowBox>
+      );
+    }
+
+    getBoard() {
+      Axios.get(`/boards/${this.props.match.params.id}`).then(response =>
+        this.setState({
+          board: response.data.board,
+          boardComments: [...response.data.boardComments],
+          user: response.data.user
+        })
+      );
+    }
+
+    handleCommentDelete(id) {
+      Axios.delete(`/boards/${this.props.match.params.id}/boardComments/${id}`);
+    }
+
+    renderBoardComments() {
+      return this.state.boardComments.map(boardComment => (
+        <div key={boardComment.id}>
+          <div>
+            <p>{boardComment.body}</p>
+            <span>by. {boardComment.user.name}</span>
+            <span>{boardComment.created_at}</span>
+            <button onClick={() => this.handleCommentDelete(boardComment.id)}>
+              delete
+            </button>
+          </div>
+        </div>
+      ));
+    }
+
+    handleChange1(e) {
+      this.setState({
+        body: e.target.value
+      });
+    }
+    handleSubmit(e) {
+      e.preventDefault();
+      Axios.post(`/boards/${this.props.match.params.id}/boardComments`, {
+        body: this.state.body
+      }).then(this.getBoard());
+    }
+
+    renderBoardCommentForm() {
+      return (
+        <div>
+          <form onSubmit={this.handleSubmit}>
+            <div>
+              <textarea
+                onChange={this.handleChange1}
+                value={this.state.body}
+                placeholder="comment를 입력해주세요.."
+              />
+            </div>
+            <div>
+              <button type="submit">댓글달기</button>
+            </div>
+          </form>
+        </div>
+      );
+    }
+
+    componentWillMount() {
+      this.getBoard();
+    }
+
+    render() {
+      return (
+        <BoardsBox>
           <Container>
-              <BoardsClass>
-                 {this.renderBoard()}
-                 {this.renderBoardCommentForm()}
-                 {this.renderBoardComments()}
-              </BoardsClass>
+            <BoardsClass>
+              {this.renderBoard()}
+              {this.renderBoardCommentForm()}
+              {this.renderBoardComments()}
+            </BoardsClass>
           </Container>
-      </BoardsBox>
-    )
+        </BoardsBox>
+      );
+    }
   }
-}

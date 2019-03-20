@@ -48,6 +48,6 @@ class BoardCommentController extends Controller
 
     public function destroy(BoardComment $boardComment)
     {
-        //
+        $boardComment->delete();
     }
 }

@@ -8,6 +8,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notice;
 use App\Board;
 use App\BoardComment;
+use App\Post;
+use App\PostComment;
+
 
 class User extends Authenticatable
 {
@@ -50,5 +53,13 @@ class User extends Authenticatable
 
     public function boardComments(){
         return $this->hasMany(BoardComment::class);
+    }
+
+    public function posts(){
+        return $this->hasMany(Post::class);
+    }
+
+    public function postComments(){
+        return $this->hasMany(PostComment::class);
     }
 }

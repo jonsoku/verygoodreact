@@ -85,7 +85,7 @@ export default class Board extends Component {
         return this.state.boards.map(board => (
             <BoardBoxBody key={board.id}>
                 <BoardNo>{board.id}</BoardNo>
-                <BoardTitle><Link to={`/boards/${board.id}`}>{board.title}      {board.board_comments.length}</Link></BoardTitle>
+                <BoardTitle><Link to={`/boards/${board.id}`}>{board.title}      {board.board_comments.length ? board.board_comments.length : ''}</Link></BoardTitle>
                 <BoardAuthor>{board.user.name}</BoardAuthor>
                 <BoardCreated>{board.created_at}</BoardCreated>
             </BoardBoxBody>

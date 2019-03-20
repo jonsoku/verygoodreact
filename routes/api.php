@@ -19,3 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Auth::routes();
 Route::resource('notices', 'NoticeController');
 Route::resource('boards', 'BoardController');
+Route::resource('boards.boardComments', 'BoardCommentController');
+Route::resource('posts', 'PostController');
