@@ -68806,7 +68806,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _templateObject6() {
-  var data = _taggedTemplateLiteral(["\n    transition: all 0.2s;\n    color: var(--grey);\n    display:block;\n    margin: 2rem 0;\n   &:hover{\n        color: var(--light);\n        transform: scale(1.1);\n   }\n"]);
+  var data = _taggedTemplateLiteral(["\n    transition: all 0.3s;\n    color: var(--grey);\n    display:block;\n    margin: 2rem 0;\n   &:hover{\n        transform: scale(1.25);\n   }\n"]);
 
   _templateObject6 = function _templateObject6() {
     return data;
@@ -68816,7 +68816,7 @@ function _templateObject6() {
 }
 
 function _templateObject5() {
-  var data = _taggedTemplateLiteral(["\n    float:left;\n    width:12.5%;\n    padding: 1rem;\n"]);
+  var data = _taggedTemplateLiteral(["\n    float:left;\n    width:12.5%;\n    padding: 1rem;\n    /* border-bottom: 5px solid ", "; */\n    a{\n        transform: ", ";\n    }\n"]);
 
   _templateObject5 = function _templateObject5() {
     return data;
@@ -68872,29 +68872,53 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 var HeaderBox = styled_components__WEBPACK_IMPORTED_MODULE_1__["default"].header(_templateObject());
 var Container = styled_components__WEBPACK_IMPORTED_MODULE_1__["default"].div(_templateObject2());
-var Header = styled_components__WEBPACK_IMPORTED_MODULE_1__["default"].div(_templateObject3());
+var HeaderClass = styled_components__WEBPACK_IMPORTED_MODULE_1__["default"].div(_templateObject3());
 var List = styled_components__WEBPACK_IMPORTED_MODULE_1__["default"].ul(_templateObject4());
-var Item = styled_components__WEBPACK_IMPORTED_MODULE_1__["default"].li(_templateObject5());
+var Item = styled_components__WEBPACK_IMPORTED_MODULE_1__["default"].li(_templateObject5(), function (props) {
+  return props.current ? "red" : "transparent";
+}, function (props) {
+  return props.current ? "scale(1.25)" : "scale(1.0)";
+});
 var SLink = Object(styled_components__WEBPACK_IMPORTED_MODULE_1__["default"])(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"])(_templateObject6());
-/* harmony default export */ __webpack_exports__["default"] = (function () {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(HeaderBox, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Container, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Header, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(List, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Item, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SLink, {
+
+var Header = function Header(_ref) {
+  var pathname = _ref.location.pathname;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(HeaderBox, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Container, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(HeaderClass, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(List, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Item, {
+    current: pathname === "/"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SLink, {
     to: "/"
-  }, "Home")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Item, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SLink, {
+  }, "Home")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Item, {
+    current: pathname === "/introduces"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SLink, {
     to: "/introduces"
-  }, "Introduce")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Item, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SLink, {
+  }, "Introduce")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Item, {
+    current: pathname === "/notices"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SLink, {
     to: "/notices"
-  }, "Notice")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Item, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SLink, {
+  }, "Notice")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Item, {
+    current: pathname === "/boards"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SLink, {
     to: "/boards"
-  }, "Board")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Item, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SLink, {
+  }, "Board")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Item, {
+    current: pathname === "/applies"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SLink, {
     to: "/applies"
-  }, "Apply")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Item, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SLink, {
+  }, "Apply")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Item, {
+    current: pathname === "/posts"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SLink, {
     to: "/posts"
-  }, "Post")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Item, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SLink, {
+  }, "Post")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Item, {
+    current: pathname === "/tasks"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SLink, {
     to: "/tasks"
-  }, "Task")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Item, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SLink, {
+  }, "Task")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Item, {
+    current: pathname === "/contacts"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SLink, {
     to: "/contacts"
   }, "Contact"))))));
-});
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withRouter"])(Header));
 
 /***/ }),
 

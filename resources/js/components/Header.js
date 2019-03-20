@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import {Link} from 'react-router-dom';
+import {Link, withRouter } from 'react-router-dom';
 
 const HeaderBox = styled.header`
     /* position: fixed;
@@ -15,7 +15,7 @@ const Container = styled.div`
     height: inherit;
 `;
 
-const Header = styled.div`
+const HeaderClass = styled.div`
 
 `;
 
@@ -27,34 +27,39 @@ const Item = styled.li`
     float:left;
     width:12.5%;
     padding: 1rem;
+    /* border-bottom: 5px solid ${props => props.current ? "red" : "transparent"}; */
+    a{
+        transform: ${props => props.current ? "scale(1.25)" : "scale(1.0)"};
+    }
 `;
 
 const SLink = styled(Link)`
-    transition: all 0.2s;
+    transition: all 0.3s;
     color: var(--grey);
     display:block;
     margin: 2rem 0;
    &:hover{
-        color: var(--light);
-        transform: scale(1.1);
+        transform: scale(1.25);
    }
 `;
 
-export default () => (
+const Header = ({location : {pathname}}) => (
     <HeaderBox>
         <Container>
-            <Header>
+            <HeaderClass>
                 <List>
-                    <Item><SLink to="/">Home</SLink></Item>
-                    <Item><SLink to="/introduces">Introduce</SLink></Item>
-                    <Item><SLink to="/notices">Notice</SLink></Item>
-                    <Item><SLink to="/boards">Board</SLink></Item>
-                    <Item><SLink to="/applies">Apply</SLink></Item>
-                    <Item><SLink to="/posts">Post</SLink></Item>
-                    <Item><SLink to="/tasks">Task</SLink></Item>
-                    <Item><SLink to="/contacts">Contact</SLink></Item>
+                    <Item current={pathname === "/"}><SLink to="/" >Home</SLink></Item>
+                    <Item current={pathname === "/introduces"}><SLink to="/introduces">Introduce</SLink></Item>
+                    <Item current={pathname === "/notices"}><SLink to="/notices">Notice</SLink></Item>
+                    <Item current={pathname === "/boards"}><SLink to="/boards">Board</SLink></Item>
+                    <Item current={pathname === "/applies"}><SLink to="/applies">Apply</SLink></Item>
+                    <Item current={pathname === "/posts"}><SLink to="/posts">Post</SLink></Item>
+                    <Item current={pathname === "/tasks"}><SLink to="/tasks">Task</SLink></Item>
+                    <Item current={pathname === "/contacts"}><SLink to="/contacts">Contact</SLink></Item>
                 </List>
-            </Header>
+            </HeaderClass>
         </Container>
     </HeaderBox>
-)
+);
+
+export default withRouter(Header);
