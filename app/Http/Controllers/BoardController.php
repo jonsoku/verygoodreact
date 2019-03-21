@@ -16,10 +16,18 @@ class BoardController extends Controller
      */
     public function index(Request $request)
     {
-        $boards = Board::with('user')->with('boardComments')->latest()->get();
+        // $boards = Board::with('user')->with('boardComments')->latest()->get();
+        // return response()->json([
+        //     'boards' => $boards
+        // ]);
+
+        $boards = Board::with('user')->with('boardComments')->latest()->paginate(3);
+
         return response()->json([
             'boards' => $boards
         ]);
+
+
     }
 
     /**

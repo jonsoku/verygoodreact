@@ -21,3 +21,4 @@ Route::resource('notices', 'NoticeController');
 Route::resource('boards', 'BoardController');
 Route::resource('boards.boardComments', 'BoardCommentController');
 Route::resource('posts', 'PostController');
+Route::resource('posts.postComments', 'PostCommentController');

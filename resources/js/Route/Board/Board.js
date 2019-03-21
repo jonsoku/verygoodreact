@@ -3,6 +3,7 @@ import Axios from 'axios';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import Loader from '../../components/Loader';
+import Pagination from 'react-js-pagination';
 // copy-paste
 const BoardsBox = styled.div`
 margin-top: 2rem;
@@ -76,12 +77,26 @@ export default class Board extends Component {
         this.state = {
             boards : [],
             error: null,
-            loading: true
-        }
+            loading: true,
+            activePage: 1,
+            itemsCountPerPage: 1,
+            totalItemsCount: 1,
+          }
+          this.handlePageChange=this.handlePageChange.bind(this);
     }
 
+
+    handlePageChange(pageNumber) {
+        console.log(`active page is ${pageNumber}`);
+        this.setState({activePage: pageNumber});
+        Axios.get('/boards')
+        .then(response => {
+            this.setState({boards : response.data.boards.data})
+        })
+      }
+
+
     renderBoards(){
-        console.log(this.state.boards)
         return this.state.boards.map(board => (
             <BoardBoxBody key={board.id}>
                 <BoardNo>{board.id}</BoardNo>
@@ -119,7 +134,7 @@ export default class Board extends Component {
     async getBoards(){
         try{
             return await Axios.get('/boards').then(response => this.setState({
-                boards : [...response.data.boards]
+                boards : [...response.data.boards.data],
             }))
         }catch{
             this.setState({
@@ -137,11 +152,16 @@ export default class Board extends Component {
         this.getBoards();
     }
   render() {
-      console.log(this.state)
-
     return (
         <>
             {this.state.loading ? <Loader/> : this.renderBox()}
+            <Pagination
+            activePage={this.state.activePage}
+            itemsCountPerPage={10}
+            totalItemsCount={450}
+            pageRangeDisplayed={5}
+            onChange={this.handlePageChange}
+            />
         </>
     )
 
